@@ -1,6 +1,8 @@
-const app = require('express')();
+const app = require('express')()
 
-const port = 9000;
+const TestManager = require('./managers/testManager')
+
+const port = 9000
 
 /**
  * SEE BELOW FOR BEGINNING PLAN!!!!
@@ -22,10 +24,24 @@ const port = 9000;
  *  b. [NOT SURE WHAT ELSE THE FRONT]
  */
 
-app.get('/', function (req, res) {
-    res.json({test: 'testing'});
-  });
+/**
+ * Application Routes
+ */
 
-  app.listen(port, () => {
-    console.log(`Now listening on port ${port}`);
-}); 
+app.get('/', function (req, res) {
+    const testManager = new TestManager()
+    testManager.getUserTables().then(d => {
+        res.json(d)
+    })
+  })
+
+  /**
+   * BRANCH FROM MASTER TO CREATE FEATURE BRANCHES
+   */
+
+/**
+ * Entry point for the application
+ */
+app.listen(port, () => {
+    console.log(`Now listening on port ${port}`)
+})
