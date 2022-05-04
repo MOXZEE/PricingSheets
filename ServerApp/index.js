@@ -4,53 +4,51 @@ const cors = require('cors')
 const port = 9000
 
 const PricingSheetManager = require('./managers/PricingSheetManager')
-const PricingSheet = require('./models/PricingSheet')
 const PricingSheetLineItemManager = require('./managers/PricingSheetLineItemManager')
-
+const UserManager = require('./managers/UserManager')
 class Application{
 
     constructor(){
         this.pricingSheetManager = new PricingSheetManager()
         this.pricingSheetLineItemManager = new PricingSheetLineItemManager()
+        this.userManager = new UserManager()
     }
 
     configureRoutes = () => {
 
-        app.get('/pricing_sheets', (req, res) => {
-            this.pricingSheetManager.getPricingSheets().then(data => {
-                const numRecs = data['rowsAffected']
-                let records = []
-                for (let i = 0; i < numRecs; i+=1){
-                    const record = data['recordsets'][i][0]
-                    const sheet = new PricingSheet(record['name'], record['user_id'], record['id'])
-                    records[i] = sheet
-                }
-                console.log(records)
-                res.json(records)
-            })
+        app.get('/pricing_sheets', async (req, res) => {
+            const records = await this.pricingSheetManager.getPricingSheets()
+            res.json(records)
         })
 
-        app.get('/pricing_sheet/:sheet_id', (req, res) => {
+        app.get('/pricing_sheet/:sheet_id', async (req, res) => {
             const sheet_id = req.params['sheet_id']
-            this.pricingSheetManager.getPricingSheetById(sheet_id).then(data => {
-                data = data['recordset'][0]
-                const sheet = new PricingSheet(data['name'], data['user_id'], data['id'])
-                res.json(sheet)
-            })
+            const record = await this.pricingSheetManager.getPricingSheetById(sheet_id)
+            res.json(record)
         })
 
-        app.get('/pricing_sheet_line_items', (req, res) => {
-            this.pricingSheetLineItemManager.getPricingSheetLineItems().then(data => {
-                res.json(data)
-            })
+        app.get('/pricing_sheet_line_items', async (req, res) => {
+            const records = await this.pricingSheetLineItemManager.getPricingSheetLineItems()
+            res.json(records)
         })
 
-        app.get('/pricing_sheet_line_item/:line_item_id', (req, res) => {
+        app.get('/pricing_sheet_line_item/:line_item_id', async (req, res) => {
             const line_item_id = req.params['line_item_id']
-            this.pricingSheetLineItemManager.getPricingSheetLineItemById(line_item_id).then(data => {
-                res.json(data)
-            })
+            const record = await this.pricingSheetLineItemManager.getPricingSheetLineItemById(line_item_id)
+            res.json(record)
         })
+
+        app.get('/users', async (req, res) => {
+            const records = await this.userManager.getUsers()
+            res.json(records)
+        })
+
+        app.get('/user/:user_id', async (req, res) => {
+            const user_id = req.params['user_id']
+            const record = await this.userManager.getUserById(user_id)
+            res.json(record)
+        })
+
     }
 
     init = () => {

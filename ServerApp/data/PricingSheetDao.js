@@ -1,6 +1,8 @@
 const sql = require('mssql')
 const sqlConfig = require('./SqlConfig').config
 
+const Common = require('./Common')
+
 class PricingSheetDao{
 
     ID = 'id'
@@ -12,18 +14,9 @@ class PricingSheetDao{
 
     constructor(){}
 
-    getPricingSheets = async () => {
-        return await sql.connect(sqlConfig).then(pool => {
-            return pool.request().query(this.SELECT_ALL_PRICING_SHEETS)
-        })
-    }
+    getPricingSheets = () => Common.queryAll(this.SELECT_ALL_PRICING_SHEETS)
 
-    getPricingSheetById = async (id) => {
-        return await sql.connect(sqlConfig).then(pool => {
-            return pool.request().input(this.ID, sql.Int, id)
-                .query(this.SELECT_PRICING_SHEET_BY_ID)
-        })
-    }
+    getPricingSheetById = (id) => Common.queryById(this.SELECT_PRICING_SHEET_BY_ID, id)
 }
 
 module.exports = PricingSheetDao
