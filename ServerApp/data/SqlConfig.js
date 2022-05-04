@@ -5,6 +5,7 @@ const config = {
     user: 'SA',
     password: 'yourStrong(!)Password',
     server: 'localhost',
+    database: 'PRICING_SHEET_APPLICATION',
     pool: {
       max: 10,
       min: 0,

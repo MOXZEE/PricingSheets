@@ -7,8 +7,52 @@
   <title>Document</title>
 </head>
 <body>
-   <div margin="100em">
-     <button class="btn btn-primary">Test Button</button>
+
+  <div class="center">
+    <div class="sheet">
+      <div class="title">  
+        <h1>Pricing Sheet Name</h1>
+      </div>
     </div>
+  </div>
+
+  <div class="sheet">
+    <div class="center">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Multiplier</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Celery</td>
+          <td>2</td>
+          <td>2.49</td>
+        </tr>
+        <tr>
+          <td>Carrots</td>
+          <td>7</td>
+          <td>1.99</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div>
+    pricing_sheet data: <div *ngFor="let sheet of pricingSheets">
+      {{sheet.name}}
+      {{sheet.userId}}
+      {{sheet.id}}
+    </div>
+  </div>
+
+  <div>pricing_sheet_line_item data:</div>
+
+  <div>user data:</div>
+
 </body>
 </html>

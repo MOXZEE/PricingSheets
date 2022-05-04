@@ -1,0 +1,15 @@
+.title{
+    margin: 20px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.sheet{
+    display: flex;
+    justify-content: center;
+}
+
+.center{
+    width: 95%;
+}
