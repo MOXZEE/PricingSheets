@@ -8,51 +8,57 @@
 </head>
 <body>
 
-  <div class="center">
-    <div class="sheet">
-      <div class="title">  
-        <h1>Pricing Sheet Name</h1>
-      </div>
-    </div>
-  </div>
 
-  <div class="sheet">
-    <div class="center">
-    <table class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Item</th>
-          <th scope="col">Multiplier</th>
-          <th scope="col">Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Celery</td>
-          <td>2</td>
-          <td>2.49</td>
-        </tr>
-        <tr>
-          <td>Carrots</td>
-          <td>7</td>
-          <td>1.99</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+  <div class="title">  
+    <h1>Pricing Sheet Name</h1>
   </div>
 
   <div>
-    pricing_sheet data: <div *ngFor="let sheet of pricingSheets">
-      {{sheet.name}}
-      {{sheet.userId}}
-      {{sheet.id}}
+
+    <div class="container">
+      <div class="row">
+      <table class="table table-scrollable table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+              <th class="col-sm-2 center-col" scope="col">Description</th>
+              <th class='col-sm-1 center-col' scope="col">Multiplier</th>
+              <th class='col-sm-1 center-col' scope="col">Price</th>
+              <th class="col-sm-1 center-col" scope='col'>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let li of activeLineItems" id="lineItemRow_{{li.id}}">
+            <td class="col-sm-2 center-col">{{li.name}}</td>
+            <td class="col-sm-1">
+              <select name="multSelect" class="form-select mr-sm-2" id="multSelect_{{li.id}}" (change)="onMultiplierChange($event)">
+                <option *ngFor="let i of multiplierOptions; index as index" [value]="i">{{i}}</option>
+              </select>
+            </td>
+            <td class="col-sm-1 center-col">${{li.price}}</td>
+            <td class="col-sm-1 center-col"><button class="btn btn-danger ab" id="removeButton_{{li.id}}" (click)="removeLineItem($event)">X</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
     </div>
+
+    <div class="container">
+      <div class="fab-container">
+          <select class="form-control selected-item-dropdown" name="itemSelect" id="itemSelect" [(ngModel)]="selectedItemId">
+            <option value="undefined" disabled selected>Choose...</option>
+            <option *ngFor="let item of lineItems" [value]="item.id">{{item.name}}</option>
+          </select>
+          <button class="btn btn-primary fab" [disabled]="addRowIsValid()" (click)="onAddBtnClick()">+</button>
+          <div class="totalBox">
+            <div  class="totalBox">
+              <strong>Total: ${{customerTotal}}</strong>
+            </div>
+          </div>
+        </div>
+      {{selectedItemId}}
+    </div>
+
   </div>
-
-  <div>pricing_sheet_line_item data:</div>
-
-  <div>user data:</div>
 
 </body>
 </html>

@@ -1,6 +1,5 @@
 .title{
     margin: 20px;
-    margin-left: 30px;
     display: flex;
     justify-content: center;
 }
@@ -11,5 +10,48 @@
 }
 
 .center{
-    width: 95%;
+    width: 100%;
+}
+
+.table-scrollable{
+    overflow-y:scroll;
+    height:25em;
+    display: block;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-top: 2em;
+}
+
+.center-col{
+    text-align: center;
+}
+
+.fab{
+    border-radius: 100%;
+    box-shadow: 5px 2px 10px #aaaaaa;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+.ab{
+    box-shadow: 5px 0px 10px #aaaaaa;
+    width: 50px;
+    height: 50px;
+}
+
+.selected-item-dropdown{
+    width: 20em;
+    display: inline;
+    box-shadow: 5px 2px 10px #aaaaaa;
+}
+
+.totalBox{
+    display: flex;
+    float: right;
+}
+
+.totalText{
+    text-align: center;
+    margin: auto 10px;
 }
