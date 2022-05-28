@@ -19,7 +19,7 @@ export class AppComponent implements OnInit{
   activeLineItems: PricingSheetLineItem[] = []
   users: User[] = []
   selectedItemId: number = 0
-  selectedMultipliers: number[] = [0,0,0,0,0,0,0,0,0,0]
+  selectedMultipliers = new Map()
   customerTotal: number = 0
 
   multiplierOptions = [1,2,3,4,5,6,7,8,9,10]
@@ -37,37 +37,32 @@ export class AppComponent implements OnInit{
   }
 
   public onAddBtnClick(): void{
+    let temp: PricingSheetLineItem[] = []
     this.lineItems.forEach(item => {
       if (item.id == this.selectedItemId) {
         this.activeLineItems.push(item)
+        this.selectedMultipliers.set(item.id, 1)
+      } else {
+        temp.push(item)
       }
     })
-    let temp: PricingSheetLineItem[] = []
-    for (let i = 0; i < this.lineItems.length; i++){
-      if (this.lineItems[i].id != this.selectedItemId) {
-        temp.push(this.lineItems[i])
-        this.selectedMultipliers[i-1] = 1
-      }
-    }
     this.lineItems = temp
+    this.customerTotal = this.calculateTotal()
   }
 
   public removeLineItem($event: any): void{
     const itemIndex = $event.target.id.split('_')[1]
-    console.log(itemIndex)
+    let temp: PricingSheetLineItem[] = []
     this.activeLineItems.forEach(item => {
       if (item.id == itemIndex) {
         this.lineItems.push(item)
+        this.selectedMultipliers.delete(item.id)
+      } else {
+        temp.push(item)
       }
     })
-    let temp: PricingSheetLineItem[] = []
-    for (let i = 0; i < this.activeLineItems.length; i++) {
-      if (this.activeLineItems[i].id != itemIndex) {
-        temp.push(this.activeLineItems[i])
-        this.selectedMultipliers[i-1] = 0
-      }
-    }
     this.activeLineItems = temp
+    this.customerTotal = this.calculateTotal()
   }
 
   public addRowIsValid(): boolean{
@@ -75,9 +70,22 @@ export class AppComponent implements OnInit{
   }
 
   public onMultiplierChange($event: any): void{
-    const multIndex = $event.target.id.split('_')[1]
-    const multValue = $event.target.value
-    this.selectedMultipliers[multIndex-1] = multValue
-    console.log(this.selectedMultipliers)
+    const multIndex = +$event.target.id.split('_')[1]
+    const multValue = +$event.target.value
+    this.selectedMultipliers.set(multIndex, multValue)
+    this.customerTotal = this.calculateTotal()
+  }
+
+  private calculateTotal(): number{
+    let total = 0
+    this.activeLineItems.forEach(item => {
+      console.log(this.selectedMultipliers, item.id, this.selectedMultipliers.has(item.id))
+      if (this.selectedMultipliers.has(item.id)) {
+        const multiplier = this.selectedMultipliers.get(item.id)
+        console.log(item.price, multiplier)
+        total += multiplier * item.price
+      }
+    })
+    return total
   }
 }

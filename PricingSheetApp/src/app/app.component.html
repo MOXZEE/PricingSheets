@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -51,14 +51,104 @@
           <button class="btn btn-primary fab" [disabled]="addRowIsValid()" (click)="onAddBtnClick()">+</button>
           <div class="totalBox">
             <div  class="totalBox">
-              <strong>Total: ${{customerTotal}}</strong>
+              <strong>Total: {{customerTotal | currency}}</strong>
             </div>
           </div>
         </div>
-      {{selectedItemId}}
     </div>
 
   </div>
+
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+</head>
+<body>
+
+    <nav class="title navbar navbar-expand-sm navbar-dark bg-dark floating">
+      <a href="#" class="navbar-brand mx-3">Pricing Sheet Name</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#">View Sheets</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#">Edit Sheet</a>
+          </li>
+        </ul>
+      </div>
+      <button href="#" class="btn mx-3 logoutButton">logout</button>
+    </nav>
+
+    <table class="table mainData table-dark">
+      <thead>
+        <tr>
+          <th class="col-sm-2 center-col" scope="col">Description</th>
+          <th class='col-sm-1 center-col' scope="col">Multiplier</th>
+          <th class='col-sm-1 center-col' scope="col">Price</th>
+          <th class="col-sm-1 center-col" scope='col'>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let li of activeLineItems" id="lineItemRow_{{li.id}}">
+          <td class="col-sm-2 center-col">{{li.name}}</td>
+          <td class="col-sm-1 center-col">
+            <select name="form-select multSelect" style="display: inline; width: 20em;" class="form-select mr-sm-2" id="multSelect_{{li.id}}" (change)="onMultiplierChange($event)">
+              <option *ngFor="let i of multiplierOptions; index as index" [value]="i">{{i}}</option>
+            </select>
+          </td>
+          <td class="col-sm-1 center-col">${{li.price}}</td>
+          <td class="col-sm-1 center-col"><button class="btn btn-danger ab" id="removeButton_{{li.id}}" (click)="removeLineItem($event)">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="activeLineItems.length <= 2" class="py-5"></div>
+
+    <select class="form-select selected-item-dropdown" name="itemSelect" id="itemSelect" [(ngModel)]="selectedItemId">
+      <option value="undefined" disabled selected>Choose...</option>
+      <option *ngFor="let item of lineItems" [value]="item.id">{{item.name}}</option>
+    </select>
+      <button class="btn btn-dark mx-3" [disabled]="addRowIsValid()" (click)="onAddBtnClick()">Add To Sheet</button>
+    <div class="totalBox bg-dark mx-5">
+      <strong class="total-text">Total: {{customerTotal | currency}}</strong>
+    </div>
+      
+
+    <!--<div class="container">
+      <div class="row">
+      <table class="table">
+        <thead>
+            <tr>
+              <th class="col-sm-2 center-col" scope="col">Description</th>
+              <th class='col-sm-1 center-col' scope="col">Multiplier</th>
+              <th class='col-sm-1 center-col' scope="col">Price</th>
+              <th class="col-sm-1 center-col" scope='col'>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let li of activeLineItems" id="lineItemRow_{{li.id}}">
+            <td class="col-sm-2 center-col">{{li.name}}</td>
+            <td class="col-sm-1">
+              <select name="multSelect" class="form-select mr-sm-2" id="multSelect_{{li.id}}" (change)="onMultiplierChange($event)">
+                <option *ngFor="let i of multiplierOptions; index as index" [value]="i">{{i}}</option>
+              </select>
+            </td>
+            <td class="col-sm-1 center-col">${{li.price}}</td>
+            <td class="col-sm-1 center-col"><button class="btn btn-danger ab" id="removeButton_{{li.id}}" (click)="removeLineItem($event)">X</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>-->
 
 </body>
 </html>
